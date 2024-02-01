@@ -40,8 +40,13 @@ def predict_disease(symp):
 def helper(dis):
     descr = description[description['Disease'] == dis]['Description'].tolist()
     prec = precuation[precuation['Disease'] == dis][['Precaution_1', 'Precaution_2', 'Precaution_3', 'Precaution_4']].values.tolist()
-    med = medication[medication['Disease'] == dis]['Medication'].str.split(', ').tolist()
-    die = diet[diet['Disease'] == dis]['Diet'].tolist()
+    med_data = medication[medication['Disease'] == dis]['Medication'].values.tolist()[0]
+    med = [item.strip("' ").strip() for item in med_data.strip('[]').split(',')]
+
+    # die = diet[diet['Disease'] == dis]['Diet'].tolist()
+    diet_data = diet[diet['Disease'] == dis]['Diet'].values.tolist()[0]
+    die = [item.strip("' ").strip() for item in diet_data.strip('[]').split(',')]
+    
     work = workout[workout['disease'] == dis]['workout'].tolist()
 
     response = {
